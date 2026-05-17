@@ -14,7 +14,7 @@ const registerController=async(req,res)=>{
             })
          }
 
-         let  isexisteduser= userModel.findOne({email})
+         let  isexisteduser= await userModel.findOne({email})
 
          if(isexisteduser){
 
@@ -25,9 +25,9 @@ const registerController=async(req,res)=>{
             })
          }
 
-         let hashpass= bcrypt.hash(password,10)
+         let hashpass= await bcrypt.hash(password,10)
 
-         let newuser= userModel.create({
+         let newuser=await  userModel.create({
             name,
             email,
             password:hashpass
@@ -37,11 +37,17 @@ const registerController=async(req,res)=>{
 
 
 
+         return res.status(200).json({
+            message:"user crerated",
+            user:newuser
 
+         })
 
          
      
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({
             message:"internal server error ",
             success:false
