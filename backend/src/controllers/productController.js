@@ -36,9 +36,6 @@ const createProductController=async(req,res)=>{
     }
 }
 
-
-
-
 const getAllProductController=async(req,res)=>{
     try {
 
@@ -57,7 +54,46 @@ const getAllProductController=async(req,res)=>{
     }
 }
 
+const updateSingleProductController=async(req,res)=>{
+
+    try {
+         let {id}=req.params
+
+        if(!id){
+            return res.status(400).json({
+                message:"id required/ id not found"
+            })
+        }
+
+        let product= await productModel.findById({id})
+
+        if(!product){
+
+            return res.status(400).json({
+                message:"product not matched "
+            })
+        }
+
+
+        return res.status(200).json({
+            success:true,
+            messageL:"fetched successfully",
+            product
+        })
+       
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"internal server error"
+        })
+        
+    }
+}
+
 module.exports={
     getAllProductController,
-    createProductController
+    createProductController,
+    updateSingleProductController
 }
