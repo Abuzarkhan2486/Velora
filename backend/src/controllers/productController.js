@@ -1,17 +1,17 @@
 const productModel = require("../models/product.model")
 
 
-const createProductController=async(req,res)=>{
+const createProductController = async (req, res) => {
     try {
 
-        let {productName,description,price}=req.body
+        let { productName, description, price } = req.body
 
 
-        if(!productName||!price||!description){
+        if (!productName || !price || !description) {
 
             return res.status(400).json({
-                message:"all fields are required to create a product ",
-                success:false
+                message: "all fields are required to create a product ",
+                success: false
             })
         }
 
@@ -23,77 +23,130 @@ const createProductController=async(req,res)=>{
 
 
         return res.status(201).json({
-            message:"product created ",
-            success:true
+            message: "product created ",
+            success: true
         })
-        
+
     } catch (error) {
         console.log(error);
-        
-            return res.status(500).json({
-                message:"invalid error/ internal error"
-            })
-    }
-}
 
-const getAllProductController=async(req,res)=>{
-    try {
-
-            let product = await productModel.find()
-
-        return res.status(200).json({
-            product:product,
-            message:"all product are fetched "
-        })
-    } catch (error) {
-        console.log(error);
-        
         return res.status(500).json({
-            message:"invalid error "
+            message: "invalid error/ internal error"
         })
     }
 }
 
-const updateSingleProductController=async(req,res)=>{
+const getAllProductController = async (req, res) => {
+    try {
+
+        let product = await productModel.find()
+
+        return res.status(200).json({
+            product: product,
+            message: "all product are fetched "
+        })
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            message: "invalid error "
+        })
+    }
+}
+
+const updateSingleProductController = async (req, res) => {
 
     try {
-         let {id}=req.params
+        let { id } = req.params
 
-        if(!id){
+
+
+        if (!id) {
             return res.status(400).json({
-                message:"id required/ id not found"
+                message: "id required/ id not found"
             })
         }
 
-        let product= await productModel.findById({id})
+        let product = await productModel.findById({ id })
 
-        if(!product){
+        if (!product) {
 
             return res.status(400).json({
-                message:"product not matched "
+                message: "product not matched "
             })
         }
+        let { productName, description, price } = req.body
+
+
+        if (!productName || !price || !description) {
+
+            return res.status(400).json({
+                message: "all fields are required to create a product ",
+                success: false
+            })
+        }
+
+
+        await productModel.findByIdAndUpdate(id, {
+            productName,
+            description,
+            price
+        },
+            {
+                new: true, runValidators: true
+            })
 
 
         return res.status(200).json({
-            success:true,
-            messageL:"fetched successfully",
+            success: true,
+            messageL: "fetched successfully",
             product
         })
-       
+
 
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            message:"internal server error"
+            message: "internal server error"
         })
-        
+
     }
 }
 
-module.exports={
+
+const getSingleProductController = async (req, res) => {
+    try {
+        let productid = req.params.productid
+        if (!productid) {
+            return res.status(401).json({
+                message: "id not mached"
+            })
+        }
+
+        let pro = await productModel.findById(productid)
+        if (!pro) {
+            return res.status(400).json({
+                message: "product not found"
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "product",
+            product: pro
+        })
+
+    } catch (error) {
+     return   res.status(400).json({
+            message: "error in controller"
+        })
+    }
+}
+
+module.exports = {
     getAllProductController,
     createProductController,
-    updateSingleProductController
+    updateSingleProductController,
+    getSingleProductController
 }
