@@ -144,9 +144,53 @@ const getSingleProductController = async (req, res) => {
     }
 }
 
+const deleteProductController = async (req, res) => {
+    try {
+        let productid = req.params.productid
+        if (!productid) {
+            return res.status(401).json({
+                message: "id not found"
+            })
+        }
+
+        let deleteproduct = await productModel.findByIdAndDelete(productid)
+
+        // let user = await UserModel.findById(req.user._id);
+
+        // let updatedUserProducts = user.products.filter((elem) => {
+        //   elem !== deLPro._id;
+        // });
+
+        // user.products = updatedUserProducts;
+        // await user.save();
+
+        let updateUser = await UserModel.findByIdAndUpdate(
+            req.user._id,
+            {
+                $pull: { products: productid },
+            },
+            { new: true }
+        );
+
+        return res.status(200).json({
+            message:"delete product"
+        })
+
+
+
+
+    } catch (error) {
+      return  res.status(400).json({
+            message: "error in controller "
+        })
+    }
+}
+
+
 module.exports = {
     getAllProductController,
     createProductController,
     updateSingleProductController,
-    getSingleProductController
+    getSingleProductController,
+    deleteProductController
 }
