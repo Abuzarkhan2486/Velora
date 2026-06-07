@@ -41,116 +41,116 @@ const addToCartController=async(req,res)=>{
 }
 
 
-// const incrementController=async(req,res)=>{
-//     try {
-//         let {cartid,productid}=req.params
-//         if(!cartid||!productid){
-//             return res.status(400).json({
-//                 message:"id not found"
-//             })
-//         }
+const incrementController=async(req,res)=>{
+    try {
+        let {cartid,productid}=req.params
+        if(!cartid||!productid){
+            return res.status(400).json({
+                message:"id not found"
+            })
+        }
 
-//         let cart=await cartModel.findById(cartid)
+        let cart=await cartModel.findById(cartid)
         
-//         let product = cart.items.find((elem)=>
-//             elem.products_id.toString() === productid
-//         )
+        let product = cart.items.find((elem)=>
+            elem.products_id.toString() === productid
+        )
 
-//         product.quantity +=1
-//         await cart.save()
+        product.quantity +=1
+        await cart.save()
 
-//         return res.status(200).json({
-//             success:true,
-//             message:"incremented",
-//             cart
-//         })
-
-
-//     } catch (error) {
-//         return res.status(400).json({
-//             message:"error in controller "
-//         })
-//     }
-// }
+        return res.status(200).json({
+            success:true,
+            message:"incremented",
+            cart
+        })
 
 
-// const decrementController=async(req,res)=>{
-//     try {
-//         let {cartid,productid}=req.params
+    } catch (error) {
+        return res.status(400).json({
+            message:"error in controller "
+        })
+    }
+}
 
-//         if(!cartid||!productid){
-//             return res.status(400).json({
-//                 message:"id not found"
-//             })
-//         }
 
-//         let cart=await cartModel.findById(cartid)
+const decrementController=async(req,res)=>{
+    try {
+        let {cartid,productid}=req.params
+
+        if(!cartid||!productid){
+            return res.status(400).json({
+                message:"id not found"
+            })
+        }
+
+        let cart=await cartModel.findById(cartid)
         
-//         let product = cart.items.find((elem)=>
-//             elem.products_id.toString() === productid
-//         )
+        let product = cart.items.find((elem)=>
+            elem.products_id.toString() === productid
+        )
 
 
-//         if(product){
-//             if(product.quantity===0){
-//                 return res.status(400).json({
-//                     message:"quantity is 0"
-//                 })
-//             }
+        if(product){
+            if(product.quantity===0){
+                return res.status(400).json({
+                    message:"quantity is 0"
+                })
+            }
 
-//             product.quantity -=1
-//         }
+            product.quantity -=1
+        }
         
-//         await cart.save()
+        await cart.save()
 
-//         return res.status(200).json({
-//             success:true,
-//             message:"decremented",
-//             cart
-//         })
-
-
-//     } catch (error) {
-//         return res.status(400).json({
-//             message:"error in controller "
-//         })
-//     }
-// }
+        return res.status(200).json({
+            success:true,
+            message:"decremented",
+            cart
+        })
 
 
-// const deleteController=async(req,res)=>{
-//     try {
-//         let {cartid,productid}=req.params
+    } catch (error) {
+        return res.status(400).json({
+            message:"error in controller "
+        })
+    }
+}
 
-//         if(!cartid||!productid){
-//             return res.status(400).json({
-//                 message:"id not found"
-//             })
-//         }
 
-//         let cart=await cartModel.findById(cartid)
+const deleteController=async(req,res)=>{
+    try {
+        let {cartid,productid}=req.params
+
+        if(!cartid||!productid){
+            return res.status(400).json({
+                message:"id not found"
+            })
+        }
+
+        let cart=await cartModel.findById(cartid)
         
-//         let updatedproduct = cart.items.filter((elem)=>
-//             elem.products_id.toString() !== productid
-//         )
+        let updatedproduct = cart.items.filter((elem)=>
+            elem.products_id.toString() !== productid
+        )
 
-//         cart.items=updatedproduct
+        cart.items=updatedproduct
         
-//         await cart.save()
+        await cart.save()
 
-//         return res.status(200).json({
-//             success:true,
-//             message:"product deleted from cart",
-//             cart
-//         })
+        return res.status(200).json({
+            success:true,
+            message:"product deleted from cart",
+            cart
+        })
 
 
-//     } catch (error) {
-//         return res.status(400).json({
-//             message:"error in controller "
-//         })
-//     }
-// }
+    } catch (error) {
+        return res.status(400).json({
+            message:"error in controller "
+        })
+    }
+}
 
 module.exports={
     addToCartController,
