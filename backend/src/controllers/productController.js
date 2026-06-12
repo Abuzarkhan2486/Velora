@@ -187,43 +187,43 @@ const deleteProductController = async (req, res) => {
 }
 
 
-const updateSingleValueoOfProductContrller = async (req, res) => {
-    try {
-        let productid = req.params.productid
-        if (!productid) {
-            return res.status(401).json({
-                message: "id not found"
-            })
-        }
+// const updateSingleValueoOfProductContrller = async (req, res) => {
+//     try {
+//         let productid = req.params.productid
+//         if (!productid) {
+//             return res.status(401).json({
+//                 message: "id not found"
+//             })
+//         }
 
-        let update = req.body
-        if (!update) {
-            return res.status(401).json({
-                message: "enter the value"
-            })
-        }
+//         let update = req.body
+//         if (!update) {
+//             return res.status(401).json({
+//                 message: "enter the value"
+//             })
+//         }
 
-        let updatedSinglevalue = await productModel.findByIdAndUpdate(
-            productid,
-            {
-                $set: update
-            },
-            { new: true, runValidators: true }
-        )
+//         let updatedSinglevalue = await productModel.findByIdAndUpdate(
+//             productid,
+//             {
+//                 $set: update
+//             },
+//             { new: true, runValidators: true }
+//         )
 
-        return res.status(200).json({
-            success: true,
-            message: "product updated",
-            product: updatedSinglevalue
-        })
+//         return res.status(200).json({
+//             success: true,
+//             message: "product updated",
+//             product: updatedSinglevalue
+//         })
 
 
-    } catch (error) {
-     return   res.status(400).json({
-            message: "error in controller "
-        })
-    }
-}
+//     } catch (error) {
+//      return   res.status(400).json({
+//             message: "error in controller "
+//         })
+//     }
+// }
 
 
 module.exports = {
